@@ -1,15 +1,15 @@
 import React from 'react'
-import {NavLink,Link} from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
 import toast from "react-hot-toast"
 
 const Header = () => {
-    const[auth,setAuth]=useAuth();
+    const [auth, setAuth] = useAuth();
     const handleLogout = () => {
         setAuth({
             ...auth,
-            user:null,
-            token:''
+            user: null,
+            token: ''
         })
         localStorage.removeItem('auth')
         toast.success("Logout Successfully")
@@ -23,7 +23,7 @@ const Header = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                         <Link to="/" className="navbar-brand">
-                        🛒 <b>Sakhi</b>
+                            🛒 <b>Sakhi</b>
                         </Link>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
@@ -38,30 +38,34 @@ const Header = () => {
                             </li>
                             {
                                 !auth.user ? (<>
-                                <li className="nav-item">
-                                  <NavLink to="/register" className="nav-link">
-                                      Register
-                                  </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                  <NavLink to="/login" className="nav-link">
-                                      Login
-                                  </NavLink>
-                                </li>
-                            </>) : (<>
-                                <li className="nav-item">
-                                  <NavLink onClick={handleLogout} to="/login" className="nav-link">
-                                      Logout
-                                  </NavLink>
-                                </li>
-                            </>)
+                                    <li className="nav-item">
+                                        <NavLink to="/register" className="nav-link">
+                                            Register
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/login" className="nav-link">
+                                            Login
+                                        </NavLink>
+                                    </li>
+                                </>) : (
+                                    <li className="nav-item dropdown">
+                                        <NavLink className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {auth.user?.name}
+                                        </NavLink>
+                                        <ul className="dropdown-menu">
+                                            <li><NavLink to={`/dashboard/${auth?.user?.role===1 ? "admin":"user"}`} className="dropdown-item">Dashboard</NavLink></li>
+                                            <li><NavLink className="dropdown-item" onClick={handleLogout} to="/login">Logout</NavLink></li>
+                                        </ul>
+                                    </li>
+                                )
                             }
                             <li className="nav-item">
                                 <NavLink to="/cart" className="nav-link">
                                     Cart(0)
                                 </NavLink>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </div>
@@ -71,6 +75,6 @@ const Header = () => {
     )
 }
 
- 
+
 
 export default Header
