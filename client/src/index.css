@@ -134,3 +134,9 @@
   height: 70vh;
   flex-direction: column;
 }
+
+/* Product link */
+.product-link {
+  text-decoration: none !important;
+  color: black !important;
+}
